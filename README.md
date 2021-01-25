@@ -1,6 +1,8 @@
 # pentago-python
 
-[Pentago](https://en.wikipedia.org/wiki/Pentago) is a game like a four-in-a-row.
+[Pentago](https://en.wikipedia.org/wiki/Pentago) is a game like a four-in-a-row. The first player to get five marbles in a row wins !
+
+But after placing a marble, you must turn one of the fourth quarters available on the board.
 
 ## Prerequisite
 
