@@ -16,10 +16,10 @@ def play_turn(board):
         while True:
             input_value = input("Place a marble:")
             
-            position = get_position_if_valid(board, input_value)
+            result = add_marble_to_board(board, input_value)
             
-            if position != None:
-                add_marble_to_board(board, position)
+            if result != None:
+                board = result
                 break
             else:
                 print("Please play on a valid & empty cell")

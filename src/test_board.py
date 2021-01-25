@@ -1,10 +1,22 @@
 import unittest
+from unittest_data_provider import data_provider
+import sys
+
 from board import construct_board, print_board, is_board_full, get_position_if_valid, add_marble_to_board
+
+def print_board_if_verbosity_is_set(board):
+    if "-v" in sys.argv:
+        print_board(board)
+
+def generate_board_and_add_position(position):
+    board = [[0]*6 for _ in range(6)]
+    board[position[0]][position[1]] = 1
+    return board
 
 class BoardTest (unittest.TestCase):
     def test_if_construct_board_return_correctly_initialized_array(self):
         board = construct_board()
-        print_board(board)
+        print_board_if_verbosity_is_set(board)
 
         expected_board  = [[0] * 6] * 6
         
@@ -13,7 +25,7 @@ class BoardTest (unittest.TestCase):
     def test_is_board_not_full_should_return_false(self):
         board = [[1]*6 for _ in range(6)]
         board[0][0] = 0
-        print_board(board)
+        print_board_if_verbosity_is_set(board)
 
         result = is_board_full(board)
         
@@ -21,58 +33,37 @@ class BoardTest (unittest.TestCase):
     
     def test_is_board_full_should_return_true(self):
         board = [[1]*6 for _ in range(6)]
-        print_board(board)
+        print_board_if_verbosity_is_set(board)
 
         result = is_board_full(board)
         
         self.assertTrue(result)
-    
-    def test_get_position_if_valid_should_return_array_position(self):
+
+
+    positions_values = lambda: (
+        ( "A1", (0, 0)),
+        ( "a1", (0, 0)),
+        ( "C4", (3, 2)),
+        ( "F6", (5, 5)),
+        ( "A0", None),
+        ( "A7", None),
+        ( "G1", None),
+        ( "anything", None)
+    )
+   
+    @data_provider(positions_values)
+    def test_get_position_if_valid(self, position, expected_result):
         board = [[0]*6 for _ in range(6)]
-        print_board(board)
+        print_board_if_verbosity_is_set(board)
         
-        result = get_position_if_valid(board, "A1")
-        expected_result = [0,0]
-
-        self.assertEqual(result, expected_result)
-
-        result = get_position_if_valid(board, "F6")
-        expected_result = [5,5]
-        self.assertEqual(result, expected_result)
-
-    def test_get_position_if_valid_should_return_None_due_to_boundaries(self):
-        board = [[0]*6 for _ in range(6)]
-        print_board(board)
-        
-        result = get_position_if_valid(board, "A0")
-        expected_result = None
-
-        self.assertEqual(result, expected_result)
-
-        result = get_position_if_valid(board, "A7")
-        expected_result = None
-
-        self.assertEqual(result, expected_result)
-
-
-        result = get_position_if_valid(board, "G1")
-        expected_result = None
-
-        self.assertEqual(result, expected_result)
-    
-    def test_get_position_if_valid_should_return_None_due_to_position_length(self):
-        board = [[0]*6 for _ in range(6)]
-        print_board(board)
-        
-        result = get_position_if_valid(board, "anything")
-        expected_result = None
+        result = get_position_if_valid(board, position)
 
         self.assertEqual(result, expected_result)
 
     def test_get_position_if_valid_should_return_None_due_to_cell_already_filled(self):
         board = [[0]*6 for _ in range(6)]
         board[0][0] = 1
-        print_board(board)
+        print_board_if_verbosity_is_set(board)
         
         result = get_position_if_valid(board, "A1")
         expected_result = None
@@ -80,33 +71,29 @@ class BoardTest (unittest.TestCase):
         self.assertEqual(result, expected_result)
 
 
-    def test_get_position_if_valid_should_return_relative_board_position(self):
-        board = [[0]*6 for _ in range(6)]
-        print_board(board)
-        
-        result = get_position_if_valid(board, "A1")
-        expected_result = [0, 0]
-
-        self.assertEqual(result, expected_result)
-
-        result = get_position_if_valid(board, "F6")
-        expected_result = [5, 5]
-
-        self.assertEqual(result, expected_result)
-
-    def test_add_marble_to_board(self):
+    positions_values = lambda: (
+        ( "A1", generate_board_and_add_position((0, 0))),
+        ( "a1", generate_board_and_add_position((0, 0))),
+        ( "C4", generate_board_and_add_position((3, 2))),
+        ( "F6", generate_board_and_add_position((5, 5))),
+        ( "A0", None),
+        ( "A7", None),
+        ( "G1", None),
+        ( "anything", None)
+    )
+    @data_provider(positions_values)
+    def test_add_marble_to_board(self, position, expected_board):
 
         board = [[0]*6 for _ in range(6)]
         
-        expected_board = [[0]*6 for _ in range(6)]
-        
-        expected_board[0][0] = 1
 
-        board = add_marble_to_board(board, [0, 0])
-        print_board(board)
+        board = add_marble_to_board(board, position)
+        print_board_if_verbosity_is_set(board)
         
-        
-        self.assertListEqual(board, expected_board)
+        if expected_board == None:
+            self.assertEqual(board, expected_board)
+        else:
+            self.assertListEqual(board, expected_board)
 
 
 
