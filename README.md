@@ -11,7 +11,6 @@ But after placing a marble, you must turn one of the fourth quarters available o
 ## Installation
 
 - Clone this repo
-- Run `make install` to build the docker image.
 - Run `make start` to start the game
 
 ## Test

@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
     volumes:
       - ./src:/usr/pentago
     command: bash -c "python3 ./pentago.py"

@@ -1,12 +1,10 @@
 .PHONY: test
-export UID = $(shell id -u)
-export GID = $(shell id -g)
 
 install: ## Install docker environnement
 	docker-compose build
 
 start: ## Start the server
-	docker-compose up
+	docker-compose run app
 
 stop: ## Stop the server
 	docker-compose down
