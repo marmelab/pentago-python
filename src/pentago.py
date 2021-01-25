@@ -1,7 +1,7 @@
-from board import construct_board, printBoard
+from board import construct_board, print_board
 
 def init_game():
-    game_board = construct_board()
-    printBoard(game_board)
+    board = construct_board()
+    print_board(board)
 
 init_game()

@@ -7,7 +7,7 @@ def construct_board():
             board[x].append(0)
     return board
 
-def printBoard(board):
+def print_board(board):
     print("\n      A  B  C  D  E  F")
     print("   ┌───────────────────┐")
     for x, line in enumerate(board, 0):
