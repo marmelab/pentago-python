@@ -1,8 +1,5 @@
 .PHONY: test
 
-install: ## Install docker environnement
-	docker-compose build
-
 start: ## Start the server
 	docker-compose run app
 
