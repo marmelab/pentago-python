@@ -1,16 +1,15 @@
-DOCKER := docker run -it --rm pentago-python
+.PHONY: test
+export UID = $(shell id -u)
+export GID = $(shell id -g)
 
-install: ## Build the docker container
-	docker build -t pentago-python .
+install: ## Install docker environnement
+	docker-compose build
 
-start: ## start the game.
-	$(DOCKER) python3 ./pentago.py
+start: ## Start the server
+	docker-compose up
 
-test: ## Run the tests
-	$(DOCKER) python3 -m unittest -v
+stop: ## Stop the server
+	docker-compose down
 
-local-run:
-	python3 ./src/pentago.py
-
-local-test: ## Run the tests on local machine
-	python3 -m unittest discover -s ./src -v
+test: ## Test the application
+	docker-compose run app python3 -m unittest discover -s ./ -v
