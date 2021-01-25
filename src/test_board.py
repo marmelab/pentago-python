@@ -1,5 +1,5 @@
 import unittest
-from board import construct_board, print_board, is_board_full, get_position_if_valid
+from board import construct_board, print_board, is_board_full, get_position_if_valid, add_marble_to_board
 
 class BoardTest (unittest.TestCase):
     def test_if_construct_board_return_correctly_initialized_array(self):
@@ -93,6 +93,22 @@ class BoardTest (unittest.TestCase):
         expected_result = [5, 5]
 
         self.assertEqual(result, expected_result)
+
+    def test_add_marble_to_board(self):
+
+        board = [[0]*6 for _ in range(6)]
+        
+        expected_board = [[0]*6 for _ in range(6)]
+        
+        expected_board[0][0] = 1
+
+        board = add_marble_to_board(board, [0, 0])
+        print_board(board)
+        
+        
+        self.assertListEqual(board, expected_board)
+
+
 
 if __name__ == '__main__':
    unittest.main()

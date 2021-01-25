@@ -14,8 +14,11 @@ def init_game():
 def play_turn(board):
         print_board(board)
         while True:
-            position = input("Place a marble:")
-            if get_position_if_valid(board, position) != None:
+            input_value = input("Place a marble:")
+            
+            position = get_position_if_valid(board, input_value)
+            
+            if position != None:
                 add_marble_to_board(board, position)
                 break
             else:

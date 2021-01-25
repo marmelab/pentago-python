@@ -32,7 +32,7 @@ def get_position_if_valid(board, position):
         return None
 
 def add_marble_to_board(board, position):
-    board[x][y] = 1
+    board[position[0]][position[1]] = 1
     return board
 
 def get_marble_character(value):
