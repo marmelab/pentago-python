@@ -9,9 +9,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build Docker image
-      run: |
-        make install
     - name: Test
       run: |
         make test
