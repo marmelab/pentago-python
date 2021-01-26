@@ -11,9 +11,15 @@ def print_board_if_verbosity_is_set(board):
     if "-v" in sys.argv:
         print_board(board, False)
 
+def generate_empty_board():
+    return np.array([[0] * 6 for _ in range(6)], int)
+
+def generate_full_board():
+    return np.array([[1] * 6 for _ in range(6)], int)
+
 def generate_board_and_add_position(position):
-    board = np.array([[0] * 6 for _ in range(6)], int)
-    board[position[0], position[1]] = 1
+    board = generate_empty_board()
+    board[position] = 1
     return board
 
 class BoardTest (unittest.TestCase):
@@ -56,7 +62,7 @@ class BoardTest (unittest.TestCase):
    
     @data_provider(positions_values)
     def test_get_position_if_valid(self, position, expected_result):
-        board = np.array([[0]*6 for _ in range(6)])
+        board = generate_empty_board()
         print_board_if_verbosity_is_set(board)
         
         result = get_position_if_valid(board, position)
@@ -83,7 +89,7 @@ class BoardTest (unittest.TestCase):
     @data_provider(good_positions_values)
     def test_add_marble_to_board_return_board(self, position, expected_board):
 
-        board = np.array([[0]*6 for _ in range(6)])
+        board = generate_empty_board()
         
 
         board = add_marble_to_board(board, position)
@@ -92,16 +98,14 @@ class BoardTest (unittest.TestCase):
         np.testing.assert_array_equal(board, expected_board)
 
     bad_positions_values = lambda: (
-        ( "A0", None),
-        ( "A7", None),
-        ( "G1", None),
-        ( "anything", None)
+        ( "A0", generate_empty_board(), None),
+        ( "A7", generate_empty_board(), None),
+        ( "G1", generate_empty_board(), None),
+        ( "anything", generate_empty_board(), None),
+        ( "A1", generate_full_board(), None)
     )
     @data_provider(bad_positions_values)
-    def test_add_marble_to_board_raise_exception(self, position, expected_board):
-
-        board = [[0]*6 for _ in range(6)]
-        
+    def test_add_marble_to_board_raise_exception(self, position, board, expected_board):
 
         print_board_if_verbosity_is_set(board)
         

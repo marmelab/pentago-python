@@ -1,5 +1,5 @@
 import os
-from constant import BOARD_SIZE
+from constant import HALF_BOARD_SIZE
 
 def get_marble_character(value):
     return "◯" if value == 0 else "◉"
@@ -8,9 +8,6 @@ def print_board(board, clear_before_printing = True):
     
     if clear_before_printing:
         os.system("clear")
-
-    # Used to detect when adding a line for drawing quarters.
-    HALF_BOARD_SIZE = (BOARD_SIZE / 2)
 
     print("\n      A  B  C   D  E  F")
     print("   ┌──────────+─────────┐")

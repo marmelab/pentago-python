@@ -28,6 +28,10 @@ If wrong, return None.
 """
 def get_position_if_valid(board, user_value):
     try:
+
+        if is_board_full(board):
+            return None
+
         if len(user_value) != 2:
             return None
 
@@ -64,7 +68,7 @@ def add_marble_to_board(board, user_value):
 
     #Else, return board with new added value
     board = deepcopy(board)
-    board[position[0]][position[1]] = 1
+    board[position] = 1
     return board
 
 

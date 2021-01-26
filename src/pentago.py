@@ -1,16 +1,21 @@
+import sys
+
 from board import construct_board, add_marble_to_board, is_board_full, get_position_if_valid
 from render import print_board
 
 def init_game():
+    try:
+        board = construct_board()
 
-    board = construct_board()
-
-    while is_board_full(board) == False:
-        board = play_turn(board)
-    
-    print_board(board)
-    print("You finished the game. GJ !")
-
+        while is_board_full(board) == False:
+            board = play_turn(board)
+        
+        print_board(board)
+        print("You finished the game. GJ !")
+    except KeyboardInterrupt:
+        sys.exit(0)
+    finally:
+        print("\nIt was fun, see you soon !")
 
 
 def play_turn(board):
