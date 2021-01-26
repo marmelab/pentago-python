@@ -98,14 +98,14 @@ class BoardTest (unittest.TestCase):
         np.testing.assert_array_equal(board, expected_board)
 
     bad_positions_values = lambda: (
-        ( "A0", generate_empty_board(), None),
-        ( "A7", generate_empty_board(), None),
-        ( "G1", generate_empty_board(), None),
-        ( "anything", generate_empty_board(), None),
-        ( "A1", generate_full_board(), None)
+        ( "A0", generate_empty_board()),
+        ( "A7", generate_empty_board()),
+        ( "G1", generate_empty_board()),
+        ( "anything", generate_empty_board()),
+        ( "A1", generate_full_board())
     )
     @data_provider(bad_positions_values)
-    def test_add_marble_to_board_raise_exception(self, position, board, expected_board):
+    def test_add_marble_to_board_raise_exception(self, position, board):
 
         print_board_if_verbosity_is_set(board)
         
