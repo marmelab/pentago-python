@@ -62,13 +62,52 @@ def add_marble_to_board(board, user_value):
     # Detect if user_value is a valid coords for our board.
     position = get_position_if_valid(board, user_value)
 
-    #If no, raise exception
+    # If no, raise exception
     if position == None:
         raise ValueError("Position given is not correct")
 
-    #Else, return board with new added value
+    # Else, return board with new added value
     board = deepcopy(board)
     board[position] = 1
     return board
 
+"""
+get_slice_boundaries_from_rotation_key get an integer and return tuple of slices for a 2d range.
 
+rotation_key: int 1 to 8
+
+1 & 2 rotate quarter 1.
+2 & 3 rotate quarter 2...
+Each quarter has 2 possibilites of rotation (counter clockwise & clockwise).
+"""
+def get_slice_boundaries_from_rotation_key(rotation_key):
+    return {
+        0: (slice(0, 3), slice(0, 3)),
+        1: (slice(0, 3), slice(3, 6)),
+        2: (slice(3, 6), slice(3, 6)),
+        3: (slice(3, 6), slice(0, 3))
+    }[rotation_key // 2]
+
+def rotate_quarter_of_board(board, user_value):
+    try:
+        # Trying to convert in integer the given string.
+        rotation_key = int(user_value)
+
+        # Accept integer between 1 and 8
+        if rotation_key < 1 or rotation_key > 8:
+            raise ValueError("Rotation given is not correct")
+        
+        # even keys are counter-clockwise, odd are clockwise
+        if rotation_key % 2 == 0:
+            direction = -1
+        else: direction = 1
+
+        # get quarter of given keys.
+        slices = get_slice_boundaries_from_rotation_key(rotation_key - 1)
+
+        # Extract quarter from 2d board, rotate it and save it at same positions.
+        board[slices] = np.rot90(board[slices], direction)
+    except:
+        raise ValueError("Rotation given is not correct")
+
+    return board
