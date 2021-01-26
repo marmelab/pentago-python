@@ -1,1 +1,1 @@
-ARRAY_SIZE = 6
+BOARD_SIZE = 6

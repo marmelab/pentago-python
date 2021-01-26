@@ -1,8 +1,9 @@
 from copy import deepcopy
-from constant import ARRAY_SIZE
+from constant import BOARD_SIZE
+import numpy as np
 
 def construct_board():
-    return [[0] * ARRAY_SIZE for _ in range(ARRAY_SIZE)]
+    return np.array([[0] * BOARD_SIZE for _ in range(BOARD_SIZE)], int)
 
 
 def is_board_full(board):
@@ -41,10 +42,10 @@ def get_position_if_valid(board, user_value):
         """
         y = ord(user_value[0].lower()) - 97
 
-        r = range(0, ARRAY_SIZE)
+        r = range(0, BOARD_SIZE)
 
         # If position is outside boundaries or on an already filled position.
-        if x not in r or y not in r or board[x][y] != 0:
+        if x not in r or y not in r or board[x, y] != 0:
             return None
 
         # Return 2 dim array relative position (e.g (0, 0))
@@ -57,9 +58,9 @@ def add_marble_to_board(board, user_value):
     # Detect if user_value is a valid coords for our board.
     position = get_position_if_valid(board, user_value)
 
-    #If no, return None
+    #If no, raise exception
     if position == None:
-        return None
+        raise ValueError("Position given is not correct")
 
     #Else, return board with new added value
     board = deepcopy(board)
