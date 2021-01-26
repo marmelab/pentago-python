@@ -102,6 +102,7 @@ def rotate_quarter_of_board(board, user_value):
             direction = -1
         else: direction = 1
 
+        board = deepcopy(board)
         # get quarter of given keys.
         slices = get_slice_boundaries_from_rotation_key(rotation_key - 1)
 

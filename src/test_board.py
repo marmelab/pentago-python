@@ -118,7 +118,7 @@ class BoardTest (unittest.TestCase):
         print_board_if_verbosity_is_set(expected_board)
         result = rotate_quarter_of_board(board, user_value)
 
-        np.testing.assert_array_equal(board, expected_board)
+        np.testing.assert_array_equal(result, expected_board)
 
 
     bad_rotation_values = lambda: (
