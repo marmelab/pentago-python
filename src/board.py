@@ -67,16 +67,3 @@ def add_marble_to_board(board, user_value):
     return board
 
 
-def get_marble_character(value):
-    return "◯" if value == 0 else "◉"
-
-
-def print_board(board):
-    print("\n      A  B  C  D  E  F")
-    print("   ┌───────────────────┐")
-    for x, line in enumerate(board, 0):
-        line_values = ""
-        for y, value in enumerate(line, 0):
-            line_values = line_values + " " + get_marble_character(value) + " "
-        print(" " + str(x + 1) + " | " + line_values + "|")
-    print("   └───────────────────┘\n")

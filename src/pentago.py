@@ -1,4 +1,5 @@
-from board import construct_board, print_board, add_marble_to_board, is_board_full, get_position_if_valid
+from board import construct_board, add_marble_to_board, is_board_full, get_position_if_valid
+from render import print_board
 
 def init_game():
     board = construct_board()
@@ -14,7 +15,7 @@ def init_game():
 def play_turn(board):
         print_board(board)
         while True:
-            input_value = input("Place a marble:")
+            input_value = input("Place a marble: ")
             
             result = add_marble_to_board(board, input_value)
             

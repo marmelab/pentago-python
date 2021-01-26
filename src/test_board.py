@@ -2,7 +2,9 @@ import unittest
 from unittest_data_provider import data_provider
 import sys
 
-from board import construct_board, print_board, is_board_full, get_position_if_valid, add_marble_to_board
+from board import construct_board, is_board_full, get_position_if_valid, add_marble_to_board
+
+from render import print_board
 
 def print_board_if_verbosity_is_set(board):
     if "-v" in sys.argv:
