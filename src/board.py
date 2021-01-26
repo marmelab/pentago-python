@@ -54,10 +54,14 @@ def get_position_if_valid(board, user_value):
 
 
 def add_marble_to_board(board, user_value):
+    # Detect if user_value is a valid coords for our board.
     position = get_position_if_valid(board, user_value)
+
+    #If no, return None
     if position == None:
         return None
 
+    #Else, return board with new added value
     board = deepcopy(board)
     board[position[0]][position[1]] = 1
     return board
