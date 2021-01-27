@@ -1,5 +1,5 @@
 import sys
-from constant import PRINT_BOARD_PLACE_MARBLE, PRINT_BOARD_ROTATE
+from constant.ui import PRINT_BOARD_PLACE_MARBLE, PRINT_BOARD_ROTATE
 from game import construct_game, player_finished_his_turn
 
 from board import add_marble_to_board, is_board_full, get_position_if_valid, rotate_quarter_of_board
@@ -32,24 +32,34 @@ def init_game():
 
 
 def ask_player_to_place_marble(board, current_player_id):
-    while True:
+    input_value_is_wrong = True;
+
+    while input_value_is_wrong:
         input_value = input(" Place a marble: ")
 
         try:
-            return add_marble_to_board(board, current_player_id, input_value)
+            board = add_marble_to_board(board, current_player_id, input_value)
+            input_value_is_wrong = False
         except ValueError:
             print(" Please play on a valid & empty cell")
+            input_value_is_wrong = True;
 
+    return board
 
 def ask_player_to_rotate_quarter(board):
-    while True:
+    input_value_is_wrong = True;
+    
+    while input_value_is_wrong:
         input_value = input(" Now rotate one quarter: ")
 
         try:
-            return rotate_quarter_of_board(board, input_value)
+            board = rotate_quarter_of_board(board, input_value)
+            input_value_is_wrong = False
         except ValueError:
             print("Please enter a valid rotation (1..8): ")
+            input_value_is_wrong = True
 
+    return board
 
 if __name__ == "__main__":
     init_game()

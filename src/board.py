@@ -1,5 +1,5 @@
 from copy import deepcopy
-from constant import BOARD_SIZE
+from constant.board import BOARD_SIZE
 import numpy as np
 
 
