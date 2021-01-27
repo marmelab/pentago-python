@@ -1,5 +1,5 @@
 from copy import deepcopy
-from constant import BOARD_SIZE
+from constant.board import BOARD_SIZE
 import numpy as np
 
 
@@ -16,11 +16,11 @@ def is_board_full(board):
 
 
 """
-get_position_if_valid(board: 2 dim array, user_value: string (e.g "A1"))
-Check if position asked for user is correct for validate multiple conditions :
+get_position_if_valid(board: 2 dim array, player_input_value: string (e.g "A1"))
+Check if position asked for player is correct for validate multiple conditions :
 
-- user_value is a string which contain only 2 chars
-- user_value[0] & user_value[1] refer to an existing cell in board (in boundaries)
+- player_input_value is a string which contain only 2 chars
+- player_input_value[0] & player_input_value[1] refer to an existing cell in board (in boundaries)
 - This cell is empty.
 
 If correct, return a tuple that containing array friendly coords (1,2).
@@ -29,16 +29,16 @@ If wrong, return None.
 """
 
 
-def get_position_if_valid(board, user_value):
+def get_position_if_valid(board, player_input_value):
     try:
 
         if is_board_full(board):
             return None
 
-        if len(user_value) != 2:
+        if len(player_input_value) != 2:
             return None
 
-        x = int(user_value[1]) - 1
+        x = int(player_input_value[1]) - 1
 
         """
         See https://stackoverflow.com/questions/5927149/get-character-position-in-alphabet
@@ -47,7 +47,7 @@ def get_position_if_valid(board, user_value):
         To convert for an array case, simply remove unicode point from "a" to this chars.
         Don't forget to lowercase this chars because uppercase has different unicode point.
         """
-        y = ord(user_value[0].lower()) - 97
+        y = ord(player_input_value[0].lower()) - 97
 
         r = range(0, BOARD_SIZE)
 
@@ -61,9 +61,9 @@ def get_position_if_valid(board, user_value):
         return None
 
 
-def add_marble_to_board(board, user_value):
-    # Detect if user_value is a valid coords for our board.
-    position = get_position_if_valid(board, user_value)
+def add_marble_to_board(board, current_player_id, player_input_value):
+    # Detect if player_input_value is a valid coords for our board.
+    position = get_position_if_valid(board, player_input_value)
 
     # If no, raise exception
     if position == None:
@@ -71,7 +71,7 @@ def add_marble_to_board(board, user_value):
 
     # Else, return board with new added value
     board = deepcopy(board)
-    board[position] = 1
+    board[position] = current_player_id
     return board
 
 
@@ -108,10 +108,10 @@ def get_quarter_boundaries_from_rotation_key(rotation_key):
     }[rotation_key // 2]
 
 
-def rotate_quarter_of_board(board, user_value):
+def rotate_quarter_of_board(board, player_input_value):
     try:
         # Trying to convert the given string to an integer.
-        rotation_key = int(user_value)
+        rotation_key = int(player_input_value)
 
     except:
         raise ValueError("Rotation given is not correct")
