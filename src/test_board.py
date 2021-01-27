@@ -3,7 +3,7 @@ from unittest_data_provider import data_provider
 import sys
 import numpy as np
 
-from board import construct_board, is_board_full, get_position_if_valid, add_marble_to_board
+from board import construct_board, is_board_full, get_position_if_valid, add_marble_to_board, get_quarter_boundaries_from_rotation_key, rotate_quarter_of_board
 
 from test_utils.generate_board import generate_board_and_add_position, generate_empty_board, generate_full_board
 from test_utils.print_board import print_board_if_verbosity_is_set
@@ -99,5 +99,59 @@ class BoardTest (unittest.TestCase):
             board = add_marble_to_board(board, position)
 
 
-        self.assertTrue("Position given is not correct" in str(context.exception))
+        self.assertEqual("Position given is not correct", str(context.exception))
 
+    rotation_keys = lambda: (
+        (0, (slice(0, 3), slice(0, 3))),
+        (1, (slice(0, 3), slice(0, 3))),
+        (2, (slice(0, 3), slice(3, 6))),
+        (3, (slice(0, 3), slice(3, 6))),
+        (4, (slice(3, 6), slice(3, 6))),
+        (5, (slice(3, 6), slice(3, 6))),
+        (6, (slice(3, 6), slice(0, 3))),
+        (7, (slice(3, 6), slice(0, 3))),
+    )
+
+    @data_provider(rotation_keys)
+    def test_get_quarter_boundaries_from_rotation_key(self, rotation_key, expected_boundaries):
+        result_boundaries = get_quarter_boundaries_from_rotation_key(rotation_key)
+        
+        self.assertTupleEqual(expected_boundaries, result_boundaries)
+
+    
+    good_rotation_values = lambda: (
+        ( "1", generate_board_and_add_position((0, 0)), generate_board_and_add_position((2, 0)) ),
+        ( "2", generate_board_and_add_position((0, 0)), generate_board_and_add_position((0, 2)) ),
+        ( "3", generate_board_and_add_position((0, 3)), generate_board_and_add_position((2, 3)) ),
+        ( "4", generate_board_and_add_position((0, 3)), generate_board_and_add_position((0, 5)) ),
+        ( "5", generate_board_and_add_position((3, 3)), generate_board_and_add_position((5, 3)) ),
+        ( "6", generate_board_and_add_position((3, 3)), generate_board_and_add_position((3, 5)) ),
+        ( "7", generate_board_and_add_position((3, 0)), generate_board_and_add_position((5, 0)) ),
+        ( "8", generate_board_and_add_position((3, 0)), generate_board_and_add_position((3, 2)) ),
+    )
+
+    @data_provider(good_rotation_values)
+    def test_rotate_quarter_of_board_should_return_board(self, user_value, board, expected_board):
+        print_board_if_verbosity_is_set(board)
+        print_board_if_verbosity_is_set(expected_board)
+        result = rotate_quarter_of_board(board, user_value)
+
+        np.testing.assert_array_equal(result, expected_board)
+
+
+    bad_rotation_values = lambda: (
+        ( "0", generate_empty_board()),
+        ( "A1", generate_empty_board()),
+        ( "something", generate_empty_board()),
+        ( "9", generate_empty_board()),
+    )
+    @data_provider(bad_rotation_values)
+    def test_rotate_quarter_of_board_raise_exception(self, user_value, board):
+
+        print_board_if_verbosity_is_set(board)
+        
+        with self.assertRaises(ValueError) as context:
+            board = rotate_quarter_of_board(board, user_value)
+
+
+        self.assertEqual("Rotation given is not correct", str(context.exception))

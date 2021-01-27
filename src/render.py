@@ -1,27 +1,64 @@
 import os
-from constant import HALF_BOARD_SIZE
+from constant import HALF_BOARD_SIZE, PRINT_BOARD_PLACE_MARBLE, PRINT_BOARD_ROTATE
+
 
 def get_marble_character(value):
     return "◯" if value == 0 else "◉"
+
+"""
+    line: A list representing a line in the 2d array.
+    For each values, get marble characters
+    return line_values ready to be displayed and correctly formatted.
+"""
+def generate_line_values(line):
+    line_values = ""
+    for y, value in enumerate(line, 0):
+        if y != 0 and y % HALF_BOARD_SIZE == 0:
+            line_values = line_values + "|"
+        line_values = line_values + " " + get_marble_character(value)
+
+        line_values = line_values + " "
     
-def print_board(board, clear_before_printing = True):
-    
+    return "  | " + line_values + "|"
+
+def print_board_place_marble(board):
+    print("\n       A  B  C   D  E  F")
+    print("     ┌──────────+─────────┐")
+
+    for x, line in enumerate(board, 0):
+        if x != 0 and x % HALF_BOARD_SIZE == 0:
+            print("     |──────────+─────────|")
+        
+        print("  " + str(x + 1) + generate_line_values(line))
+
+    print("     └──────────+─────────┘\n")
+
+def print_board_rotate(board):
+    print("\n      2 ↻             3 ↺")
+    print(" 1 ↺ ┌──────────+─────────┐  4 ↻")
+
+    for x, line in enumerate(board, 0):
+        if x != 0 and x % HALF_BOARD_SIZE == 0:
+            print("     |──────────+─────────|")
+
+        print("   " + generate_line_values(line))
+
+    print(" 8 ↻ └──────────+─────────┘ 5 ↺")
+    print("      7 ↺             6 ↻ \n")
+
+
+"""
+board = 2d array
+mode = PRINT_BOARD_PLACE_MARBLE : display X & Y coordonates on the header and on the left side.
+mode = PRINT_BOARD_ROTATE : display rotation input to indicate which enter to rotate each quarters
+clear_before_printing: If true, clear the console before printing the board.
+"""
+def print_board(board, mode=PRINT_BOARD_PLACE_MARBLE, clear_before_printing=True):
     if clear_before_printing:
         os.system("clear")
 
-    print("\n      A  B  C   D  E  F")
-    print("   ┌──────────+─────────┐")
-    for x, line in enumerate(board, 0):
-        if x != 0 and x % HALF_BOARD_SIZE == 0:
-            print("   |──────────+─────────|")
-        line_values = ""
+    if mode == PRINT_BOARD_PLACE_MARBLE:
+        print_board_place_marble(board)
+    else:
+        print_board_rotate(board)
 
-        for y, value in enumerate(line, 0):
-            if y != 0 and y % HALF_BOARD_SIZE == 0:
-                line_values = line_values + "|"
-            line_values = line_values + " " + get_marble_character(value)
-            
-            line_values = line_values + " "
-
-        print(" " + str(x + 1) + " | " + line_values + "|")
-    print("   └──────────+─────────┘\n")
