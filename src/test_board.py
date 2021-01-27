@@ -5,22 +5,8 @@ import numpy as np
 
 from board import construct_board, is_board_full, get_position_if_valid, add_marble_to_board
 
-from render import print_board
-
-def print_board_if_verbosity_is_set(board):
-    if "-v" in sys.argv:
-        print_board(board, False)
-
-def generate_empty_board():
-    return np.array([[0] * 6 for _ in range(6)], int)
-
-def generate_full_board():
-    return np.array([[1] * 6 for _ in range(6)], int)
-
-def generate_board_and_add_position(position):
-    board = generate_empty_board()
-    board[position] = 1
-    return board
+from test_utils.generate_board import generate_board_and_add_position, generate_empty_board, generate_full_board
+from test_utils.print_board import print_board_if_verbosity_is_set
 
 class BoardTest (unittest.TestCase):
     def test_if_construct_board_return_correctly_initialized_array(self):
@@ -115,7 +101,3 @@ class BoardTest (unittest.TestCase):
 
         self.assertTrue("Position given is not correct" in str(context.exception))
 
-
-
-if __name__ == '__main__':
-   unittest.main()
