@@ -1,49 +1,64 @@
 import os
-from constant import HALF_BOARD_SIZE
+from constant import HALF_BOARD_SIZE, PRINT_BOARD_PLACE_MARBLE, PRINT_BOARD_ROTATE
 
 
 def get_marble_character(value):
     return "◯" if value == 0 else "◉"
 
 """
-board = 2d array
-mode = "coords" : display X & Y coordonates on the header and on the left side.
-mode = "rotation" : display rotation input to indicate which enter to rotate each quarters
-clear_before_printing: If true, clear the console before printing the board.
+    line: A list representing a line in the 2d array.
+    For each values, get marble characters
+    return line_values ready to be displayed and correctly formatted.
 """
-def print_board(board, mode="coords", clear_before_printing=True):
-    if clear_before_printing:
-        os.system("clear")
+def generate_line_values(line):
+    line_values = ""
+    for y, value in enumerate(line, 0):
+        if y != 0 and y % HALF_BOARD_SIZE == 0:
+            line_values = line_values + "|"
+        line_values = line_values + " " + get_marble_character(value)
 
-    if mode == "coords":
-        print("\n       A  B  C   D  E  F")
-        print("     ┌──────────+─────────┐")
-    else:
-        print("\n      2 ↻             3 ↺")
-        print(" 1 ↺ ┌──────────+─────────┐  4 ↻")
+        line_values = line_values + " "
+    
+    return "  | " + line_values + "|"
 
+def print_board_place_marble(board):
+    print("\n       A  B  C   D  E  F")
+    print("     ┌──────────+─────────┐")
 
     for x, line in enumerate(board, 0):
         if x != 0 and x % HALF_BOARD_SIZE == 0:
             print("     |──────────+─────────|")
-        line_values = ""
-
-        for y, value in enumerate(line, 0):
-            if y != 0 and y % HALF_BOARD_SIZE == 0:
-                line_values = line_values + "|"
-            line_values = line_values + " " + get_marble_character(value)
-
-            line_values = line_values + " "
         
-        line_values = "  | " + line_values + "|"
-        if mode == "coords":
-            print("  " + str(x + 1) + line_values)
-        else:
-            print("   " + line_values)
+        print("  " + str(x + 1) + generate_line_values(line))
 
-    if mode == "coords":
-        print("     └──────────+─────────┘\n")
+    print("     └──────────+─────────┘\n")
+
+def print_board_rotate(board):
+    print("\n      2 ↻             3 ↺")
+    print(" 1 ↺ ┌──────────+─────────┐  4 ↻")
+
+    for x, line in enumerate(board, 0):
+        if x != 0 and x % HALF_BOARD_SIZE == 0:
+            print("     |──────────+─────────|")
+
+        print("   " + generate_line_values(line))
+
+    print(" 8 ↻ └──────────+─────────┘ 5 ↺")
+    print("      7 ↺             6 ↻ \n")
+
+
+"""
+board = 2d array
+mode = PRINT_BOARD_PLACE_MARBLE : display X & Y coordonates on the header and on the left side.
+mode = PRINT_BOARD_ROTATE : display rotation input to indicate which enter to rotate each quarters
+clear_before_printing: If true, clear the console before printing the board.
+"""
+def print_board(board, mode=PRINT_BOARD_PLACE_MARBLE, clear_before_printing=True):
+    if clear_before_printing:
+        os.system("clear")
+
+    if mode == PRINT_BOARD_PLACE_MARBLE:
+        print_board_place_marble(board)
     else:
-        print(" 8 ↻ └──────────+─────────┘ 5 ↺")
-        print("      7 ↺             6 ↻ \n")
+        print_board_rotate(board)
 
