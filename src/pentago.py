@@ -31,32 +31,32 @@ def init_game():
 
 
 def ask_player_to_place_marble(board, current_player_id):
-    input_value_is_wrong = True;
+    player_input_value_is_wrong = True;
 
-    while input_value_is_wrong:
-        input_value = input(" Place a marble: ")
+    while player_input_value_is_wrong:
+        player_input_value = input(" Place a marble: ")
 
         try:
-            board = add_marble_to_board(board, current_player_id, input_value)
-            input_value_is_wrong = False
+            board = add_marble_to_board(board, current_player_id, player_input_value)
+            player_input_value_is_wrong = False
         except ValueError:
             print(" Please play on a valid & empty cell")
-            input_value_is_wrong = True;
+            player_input_value_is_wrong = True;
 
     return board
 
 def ask_player_to_rotate_quarter(board):
-    input_value_is_wrong = True;
+    player_input_value_is_wrong = True;
     
-    while input_value_is_wrong:
-        input_value = input(" Now rotate one quarter: ")
+    while player_input_value_is_wrong:
+        player_input_value = input(" Now rotate one quarter: ")
 
         try:
-            board = rotate_quarter_of_board(board, input_value)
-            input_value_is_wrong = False
+            board = rotate_quarter_of_board(board, player_input_value)
+            player_input_value_is_wrong = False
         except ValueError:
             print("Please enter a valid rotation (1..8): ")
-            input_value_is_wrong = True
+            player_input_value_is_wrong = True
 
     return board
 

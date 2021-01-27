@@ -132,10 +132,10 @@ class BoardTest (unittest.TestCase):
     )
 
     @data_provider(good_rotation_values)
-    def test_rotate_quarter_of_board_should_return_board(self, user_value, board, expected_board):
+    def test_rotate_quarter_of_board_should_return_board(self, player_input_value, board, expected_board):
         print_board_if_verbosity_is_set(board)
         print_board_if_verbosity_is_set(expected_board)
-        result = rotate_quarter_of_board(board, user_value)
+        result = rotate_quarter_of_board(board, player_input_value)
 
         np.testing.assert_array_equal(result, expected_board)
 
@@ -147,12 +147,12 @@ class BoardTest (unittest.TestCase):
         ( "9", generate_empty_board()),
     )
     @data_provider(bad_rotation_values)
-    def test_rotate_quarter_of_board_raise_exception(self, user_value, board):
+    def test_rotate_quarter_of_board_raise_exception(self, player_input_value, board):
 
         print_board_if_verbosity_is_set(board)
         
         with self.assertRaises(ValueError) as context:
-            board = rotate_quarter_of_board(board, user_value)
+            board = rotate_quarter_of_board(board, player_input_value)
 
 
         self.assertEqual("Rotation given is not correct", str(context.exception))
