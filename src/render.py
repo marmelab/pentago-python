@@ -1,9 +1,15 @@
 import os
-from constant import HALF_BOARD_SIZE, PRINT_BOARD_PLACE_MARBLE, PRINT_BOARD_ROTATE
-
+from constant import HALF_BOARD_SIZE, PRINT_BOARD_PLACE_MARBLE, PRINT_BOARD_ROTATE, COLOR_RESET, COLOR_YELLOW, COLOR_CYAN
 
 def get_marble_character(value):
-    return "◯" if value == 0 else "◉"
+
+    if value == 1:
+        return COLOR_YELLOW + "◉" + COLOR_RESET
+    
+    if value == 2:
+        return COLOR_CYAN + "◉" + COLOR_RESET
+
+    return "◯"
 
 """
     line: A list representing a line in the 2d array.
@@ -22,7 +28,7 @@ def generate_line_values(line):
     return "  | " + line_values + "|"
 
 def print_board_place_marble(board):
-    print("\n       A  B  C   D  E  F")
+    print("\n        A  B  C   D  E  F")
     print("     ┌──────────+─────────┐")
 
     for x, line in enumerate(board, 0):
@@ -62,3 +68,27 @@ def print_board(board, mode=PRINT_BOARD_PLACE_MARBLE, clear_before_printing=True
     else:
         print_board_rotate(board)
 
+def print_players(players, current_player_id):
+
+    # If current player is 1, draw around his nickname a box.
+    # Instead draw this box on the second player.
+    if current_player_id == players[0]["id"]:
+        print("    ┌────────────┐")
+        print("    | " + get_marble_character(players[0]["id"]) + " " + players[0]["name"] + " | ", end="")
+        print("   " + get_marble_character(players[1]["id"]) + " " + players[1]["name"])
+        print("    └────────────┘")
+    else:
+        print("                ┌────────────┐")
+        print("   " + get_marble_character(players[0]["id"]) + " " + players[0]["name"], end="")
+        print("   | " + get_marble_character(players[1]["id"]) + " " + players[1]["name"] + " | ")
+        print("                └────────────┘")
+
+
+
+def print_game(game, print_board_mode, clear_before_printing=True):
+    if clear_before_printing:
+        os.system("clear")
+
+    print_board(game["board"], print_board_mode)
+
+    print_players(game["players"], game["current_player_id"])

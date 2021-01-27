@@ -67,18 +67,19 @@ class BoardTest (unittest.TestCase):
 
 
     good_positions_values = lambda: (
-        ( "A1", generate_board_and_add_position((0, 0))),
-        ( "a1", generate_board_and_add_position((0, 0))),
-        ( "C4", generate_board_and_add_position((3, 2))),
-        ( "F6", generate_board_and_add_position((5, 5)))
+        ( "A1", generate_board_and_add_position((0, 0), 1), 1),
+        ( "A1", generate_board_and_add_position((0, 0), 2), 2),
+        ( "a1", generate_board_and_add_position((0, 0), 1), 1),
+        ( "C4", generate_board_and_add_position((3, 2), 1), 1),
+        ( "F6", generate_board_and_add_position((5, 5), 1), 1)
     )
     @data_provider(good_positions_values)
-    def test_add_marble_to_board_return_board(self, position, expected_board):
+    def test_add_marble_to_board_return_board(self, position, expected_board, current_player_id):
 
         board = generate_empty_board()
         
 
-        board = add_marble_to_board(board, position)
+        board = add_marble_to_board(board, current_player_id, position)
         print_board_if_verbosity_is_set(board)
 
         np.testing.assert_array_equal(board, expected_board)
@@ -96,7 +97,7 @@ class BoardTest (unittest.TestCase):
         print_board_if_verbosity_is_set(board)
         
         with self.assertRaises(ValueError) as context:
-            board = add_marble_to_board(board, position)
+            board = add_marble_to_board(board, 1, position)
 
 
         self.assertEqual("Position given is not correct", str(context.exception))
