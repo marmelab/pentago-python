@@ -1,12 +1,11 @@
 from board import construct_board
 from player import construct_players
 
-def construct_game():
-    return {
-        "board": construct_board(),
-        "players": construct_players(),
-        "current_player_id": 1
-    }
+class Game:
+    def __init__(self):
+        self.board = construct_board()
+        self.players = construct_players()
+        self.current_player_id = 1
 
 
 # Return the other player id.

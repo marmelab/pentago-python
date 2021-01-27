@@ -1,5 +1,10 @@
+class Player:
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
+
 def construct_players():
     return (
-        {"id": 1, "name": "Player 1"},
-        {"id": 2, "name": "Player 2"}
+        Player(1, "Player 1"),
+        Player(2, "Player 2"),
     )

@@ -67,10 +67,10 @@ def print_board(board, mode=PRINT_BOARD_PLACE_MARBLE):
         print_board_rotate(board)
 
 def print_player(player, current_player_id):
-    if player["id"] == current_player_id:
-        print("    | " + get_marble_character(player["id"]) + " " + player["name"] + " |", end="")
+    if player.id == current_player_id:
+        print("    | " + get_marble_character(player.id) + " " + player.name + " |", end="")
     else:
-        print("    " + get_marble_character(player["id"]) + " " + player["name"], end="")
+        print("    " + get_marble_character(player.id) + " " + player.name, end="")
 
 
 def print_players(players, current_player_id):
@@ -98,6 +98,6 @@ def print_game(game, print_board_mode, clear_before_printing=True):
     if clear_before_printing:
         os.system("clear")
 
-    print_board(game["board"], print_board_mode)
+    print_board(game.board, print_board_mode)
 
-    print_players(game["players"], game["current_player_id"])
+    print_players(game.players, game.current_player_id)

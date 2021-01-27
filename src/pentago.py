@@ -1,6 +1,6 @@
 import sys
 from constant.ui import PRINT_BOARD_PLACE_MARBLE, PRINT_BOARD_ROTATE
-from game import construct_game, player_finished_his_turn
+from game import Game, player_finished_his_turn
 
 from board import add_marble_to_board, is_board_full, get_position_if_valid, rotate_quarter_of_board
 
@@ -9,19 +9,18 @@ from render import print_game
 
 def init_game():
     try:
-        game = construct_game()
+        game = Game()
 
-        while is_board_full(game["board"]) == False:
+        while is_board_full(game.board) == False:
             print_game(game, PRINT_BOARD_PLACE_MARBLE)
-            game["board"] = ask_player_to_place_marble(
-                game["board"], game["current_player_id"]
+            game.board = ask_player_to_place_marble(
+                game.board, game.current_player_id
             )
-
             print_game(game, PRINT_BOARD_ROTATE)
-            game["board"] = ask_player_to_rotate_quarter(game["board"])
+            game.board = ask_player_to_rotate_quarter(game.board)
 
-            game["current_player_id"] = player_finished_his_turn(
-                game["current_player_id"]
+            game.current_player_id = player_finished_his_turn(
+                game.current_player_id
             )
 
         print("You finished the game. GJ !")
