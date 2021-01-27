@@ -1,6 +1,7 @@
 import os
 from constant import HALF_BOARD_SIZE, PRINT_BOARD_PLACE_MARBLE, PRINT_BOARD_ROTATE, COLOR_RESET, COLOR_YELLOW, COLOR_CYAN
 
+# Color a marble char based on player value
 def get_marble_character(value):
 
     if value == 1:
