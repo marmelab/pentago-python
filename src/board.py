@@ -2,6 +2,7 @@ from copy import deepcopy
 from constant import BOARD_SIZE
 import numpy as np
 
+
 def construct_board():
     return np.array([[0] * BOARD_SIZE for _ in range(BOARD_SIZE)], int)
 
@@ -26,6 +27,8 @@ If correct, return a tuple that containing array friendly coords (1,2).
 If wrong, return None.
 
 """
+
+
 def get_position_if_valid(board, user_value):
     try:
 
@@ -71,16 +74,32 @@ def add_marble_to_board(board, user_value):
     board[position] = 1
     return board
 
+
 """
-get_slice_boundaries_from_rotation_key get an integer and return tuple of slices for a 2d range.
+get_quarter_boundaries_from_rotation_key get an integer and return tuple of slices for a 2d range.
 
 rotation_key: int 1 to 8
+Each quarter has 2 possibilites of rotation (counter clockwise & clockwise) :
 
-1 & 2 rotate quarter 1.
-2 & 3 rotate quarter 2...
-Each quarter has 2 possibilites of rotation (counter clockwise & clockwise).
+      2 ↻  3 ↺
+ 1 ↺ ┌───+───┐  4 ↻
+     | 1 | 2 |
+     |───+───|
+     | 4 | 3 |
+ 8 ↻ └───+───┘ 5 ↺
+      7 ↺  6 ↻ 
+
+get_quarter_boundaries_from_rotation_key(2) should return (slice(0, 3), slice(3, 6)) because 3 // 2 = 1.
+
+By querying this tuple of slices in a NumPy array we should be able to get a sub-view of this array.
+In this case get a 3*3 array with the 3 first rows and 3 last columns, corresponding to the quarter 2 in the schema above.
+
+Warning: in slice(X, Y), X is included but Y is excluded.
+
 """
-def get_slice_boundaries_from_rotation_key(rotation_key):
+
+
+def get_quarter_boundaries_from_rotation_key(rotation_key):
     return {
         0: (slice(0, 3), slice(0, 3)),
         1: (slice(0, 3), slice(3, 6)),
@@ -88,14 +107,14 @@ def get_slice_boundaries_from_rotation_key(rotation_key):
         3: (slice(3, 6), slice(0, 3))
     }[rotation_key // 2]
 
+
 def rotate_quarter_of_board(board, user_value):
     try:
         # Trying to convert the given string to an integer.
         rotation_key = int(user_value)
-        
+
     except:
         raise ValueError("Rotation given is not correct")
-
 
     if rotation_key < 1 or rotation_key > 8:
         raise ValueError("Rotation given is not correct")
@@ -105,38 +124,60 @@ def rotate_quarter_of_board(board, user_value):
     # even keys are counter-clockwise, odd are clockwise
     if rotation_key % 2 == 0:
         direction = -1
-    else: direction = 1
+    else:
+        direction = 1
 
     board = deepcopy(board)
 
     """
-        Get quarter of given keys as below :
-             2 ↻  3 ↺
+        Get a tuple of slices from the board by using rotation_key.
+        slices will contain (slice(x1, y1), slice(x2, y2)) to be able to extract a quarter from the board.
+        
+        Schema of the board with quarters and rotation keys :
+            2 ↻  3 ↺
         1 ↺ ┌───+───┐  4 ↻
             | 1 | 2 |
             |───+───|
             | 4 | 3 |
         8 ↻ └───+───┘ 5 ↺
-             7 ↺   6 ↻ 
-
-        The quarter 1 looks like "(slice(0, 3), slice(0, 3))".
-        A tuple of slices to be able to querying from a NumPry array the 3 first rows and the 3 first columns.
+            7 ↺  6 ↻ 
+        rotation_key = 3 ↺
+        get_quarter_boundaries_from_rotation_key(3 - 1) will return 2 dimensions slices corresponding to the quarter 2.
 
     """
-    slices = get_slice_boundaries_from_rotation_key(rotation_key - 1)
+    slices = get_quarter_boundaries_from_rotation_key(rotation_key - 1)
 
     """
         Extract a quarter from the board by giving tuple of slices.
-        NumPy array allow us to get part  (slice) of an array : "arr[(slice(x1, y1), slice(x2, y2))]"
+        NumPy array allow us to get parts (slice) of an array of 2 dimensions : "arr[(slice(x1, y1), slice(x2, y2))]"
+        which correspond to a sub-view.
+        We get the quarter 2 of the board if we querying board[(slice(0, 3), slice(3, 6))].
+        +───┐
+        | 2 |
+        +───|
     """
     quarter = board[slices]
 
     """
         np.rot90 rotate a 2d array by 90 degrees
         in clockwise (direction = -1) or counter clockwise (direction = 1).
-        We rotate the quarter in the right direction and we erase old un-rotated quarter
-        to save in the board (at the tuple of slices) the new rotated quarter.
+      
+        np.rot90(quarter, -1) will result :
+        +───┐      +───┐
+        |👆 | ===> | 👉|
+        +───|      +───|
     """
-    board[slices] = np.rot90(quarter, direction)
+    rotated_quarter = np.rot90(quarter, direction)
+
+    """
+        Finally, board[slices] will be updated with the rotated quarter.
+         ┌───+───┐
+         | 1 | 👉|
+         |───+───|
+         | 4 | 3 |
+         └───+───┘
+
+    """
+    board[slices] = rotated_quarter
 
     return board

@@ -3,6 +3,7 @@ import sys
 from board import construct_board, add_marble_to_board, is_board_full, get_position_if_valid, rotate_quarter_of_board
 from render import print_board
 from constant import PRINT_BOARD_PLACE_MARBLE, PRINT_BOARD_ROTATE
+
 def init_game():
     try:
         board = construct_board()
