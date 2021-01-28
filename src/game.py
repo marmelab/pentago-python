@@ -5,6 +5,7 @@ from player import Player
 class Game:
     def __init__(self):
         self.board = construct_board()
+
         self.players = construct_players()
         self.current_player_id = 1
 

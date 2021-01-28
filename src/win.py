@@ -3,21 +3,21 @@ from constant.board import BOARD_SIZE, WIN_CONDITION, WIN_AREA_CHECK
 def is_position_outside_board(position):
     return position[0] < 0 or position[0] >= BOARD_SIZE or position[1] < 0 or position[1] >= BOARD_SIZE
 
-def browse_board_in_direction_to_get_aligmnent(board, start_position, direction, results):
+def browse_board_in_direction_to_get_aligmnent(board, start_position, direction):
     """
         Check in the board if, by giving a start_position: (x, y) and a direction: (stepX , stepY)
         we can detect five marbles aligned.
     """
 
     if is_position_outside_board(start_position):
-        return results
+        return None
 
     # Get the value in the board for start_position
     player_id = board[start_position]
 
     # If the start_position is not a value played.
     if player_id == 0:
-        return results
+        return None
 
     result = {
         "player_id": player_id,
@@ -35,7 +35,7 @@ def browse_board_in_direction_to_get_aligmnent(board, start_position, direction,
 
         # Check if current_position is outside the board
         if is_position_outside_board(current_position):
-            return results
+            return None
 
         value = board[current_position]
 
@@ -44,19 +44,17 @@ def browse_board_in_direction_to_get_aligmnent(board, start_position, direction,
             if value = 0 or 2, it canno't be an alignment, so stop the detection now.
         """
         if value != player_id:
-            return results
+            return None
 
         # Instead, player_id and value are equal, save this position.
         result["aligned_positions"].append(current_position)
 
-    # At this step, this is an alignment. Add it to results array.
-    results.append(result)
+
+    return result
 
 
-    return results
-
-
-def loop_over_all_possibilities_of_aligment_in_direction(board, range_row, range_col, direction, results):
+def loop_over_all_possibilities_of_aligment_in_direction(board, range_row, range_col, direction):
+    results = []
     """
         Double loop between 2 ranges (range_row, range_col) and check for a particular direction if have an alignment.
     """
@@ -64,17 +62,18 @@ def loop_over_all_possibilities_of_aligment_in_direction(board, range_row, range
         for col in range_col:
             start_position = (row, col)
 
-            results = browse_board_in_direction_to_get_aligmnent(
+            result = browse_board_in_direction_to_get_aligmnent(
                 board,
                 start_position,
-                direction,
-                results
+                direction
             )
+            if result != None:
+                results.append(result)
 
     return results
 
 
-def get_all_lines_aligned(board, results):
+def get_all_lines_aligned(board):
 
     """
         To check if we have a 5 marbles aligned in rows, we only have to iterate throught first two columns.
@@ -96,12 +95,11 @@ def get_all_lines_aligned(board, results):
         board,
         range_row,
         range_col,
-        direction,
-        results
+        direction
     )
 
 
-def get_all_columns_aligned(board, results):
+def get_all_columns_aligned(board):
     """
         To check if we have a column with 5 marbles aligned, we only have to iterate throught first two lines:
 
@@ -125,12 +123,11 @@ def get_all_columns_aligned(board, results):
         board,
         range_row,
         range_col,
-        direction,
-        results
+        direction
     )
 
 
-def get_all_diagonales_aligned(board, results):
+def get_all_diagonales_aligned(board):
     """
         To check if we have a 5 marbles aligned in diagonales (from top-left to right-bottom), we only have to check following start positions.
         ┌──────────+─────────┐
@@ -152,12 +149,11 @@ def get_all_diagonales_aligned(board, results):
         board,
         range_row,
         range_col,
-        direction,
-        results
+        direction
     )
 
 
-def get_all_reversed_diagonales_aligned(board, results):
+def get_all_reversed_diagonales_aligned(board):
     """
         Finally, to check if we have a 5 marbles aligned in reversed diagonales (from top-right to left-bottom), we only have to check following start positions.
         ┌──────────+─────────┐
@@ -179,8 +175,7 @@ def get_all_reversed_diagonales_aligned(board, results):
         board,
         range_row,
         range_col,
-        direction,
-        results
+        direction
     )
 
 def get_all_marbles_combinations_correctly_aligned(board):
@@ -202,12 +197,11 @@ def get_all_marbles_combinations_correctly_aligned(board):
         to the right bottom (diagonale) and to the left bottom (reversed-diagonale)
 
     """
-    results = []
 
-    results = get_all_lines_aligned(board, results)
-    results = get_all_columns_aligned(board, results)
-    results = get_all_diagonales_aligned(board, results)
-    results = get_all_reversed_diagonales_aligned(board, results)
+    results = get_all_lines_aligned(board)
+    results += get_all_columns_aligned(board)
+    results += get_all_diagonales_aligned(board)
+    results += get_all_reversed_diagonales_aligned(board)
 
     return results
 

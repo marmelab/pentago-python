@@ -129,11 +129,14 @@ def print_players(players, current_player_id):
     print("\n" + BOX_SPACES + "    └────────────┘")
 
 def print_game_result(players, correct_combinations):
-    if len(correct_combinations) == 0:
+    correct_combinations_length = len(correct_combinations)
+    if correct_combinations_length == 0:
         print("Nobody of you be able to align 5 marbles. \n It's a draw !")
-    elif len(correct_combinations) == 1:
-        winner_string = "GJ Player " + str(correct_combinations[0]['player_id']) + ", You win !"
-        print(get_player_color(correct_combinations[0]['player_id'], winner_string))
+    elif correct_combinations_length == 1:
+        player = players[correct_combinations[0]['player_id'] - 1]
+
+        winner_string = "GJ " + player.name + ", You win !"
+        print(get_player_color(player.id, winner_string))
     else:
         print('Not implemented yet !')
 
