@@ -7,6 +7,7 @@ class Game:
         self.board = construct_board()
         self.players = construct_players(name1, name2)
         self.current_player_id = current_player_id
+        self.one_quarter_is_symetric = True
 
 def construct_players(name1, name2):
     return (

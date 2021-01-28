@@ -17,6 +17,7 @@ class GameTest (unittest.TestCase):
         self.assertIsInstance(game.players[0], Player)
         self.assertIsInstance(game.players[1], Player)
         self.assertEqual(game.current_player_id, expected_current_player_id)
+        self.assertEqual(game.one_quarter_is_symetric, True)
 
 
     turn_values = lambda: (
