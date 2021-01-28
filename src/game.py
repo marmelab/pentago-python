@@ -3,10 +3,10 @@ from board import construct_board
 from player import Player
 
 class Game:
-    def __init__(self, name1, name2):
+    def __init__(self, name1, name2, current_player_id):
         self.board = construct_board()
         self.players = construct_players(name1, name2)
-        self.current_player_id = 1
+        self.current_player_id = current_player_id
 
 def construct_players(name1, name2):
     return (

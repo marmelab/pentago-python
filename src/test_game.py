@@ -7,10 +7,10 @@ from player import Player
 
 class GameTest (unittest.TestCase):
     def test_if_game_instance_return_correctly_initialized_game(self):
-        game = Game()
+        game = Game("Dustin", "Brice", 2)
 
         expected_board = np.array([[0] * 6 for _ in range(6)], int)
-        expected_current_player_id = 1
+        expected_current_player_id = 2
 
 
         np.testing.assert_array_equal(game.board, expected_board)
@@ -32,15 +32,15 @@ class GameTest (unittest.TestCase):
 
 
     def test_if_construct_players_return_correctly_initialized_players(self):
-        players = construct_players()
+        players = construct_players("Dustin", "Brice")
 
         self.assertIsInstance(players[0], Player)
         self.assertEqual(players[0].id, 1)
-        self.assertEqual(players[0].name, "Player 1")
+        self.assertEqual(players[0].name, "Dustin")
 
         self.assertIsInstance(players[1], Player)
         self.assertEqual(players[1].id, 2)
-        self.assertEqual(players[1].name, "Player 2")
+        self.assertEqual(players[1].name, "Brice")
 
 
 

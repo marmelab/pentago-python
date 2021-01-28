@@ -1,4 +1,5 @@
 import sys
+from random import randint
 from constant.ui import PRINT_BOARD_PLACE_MARBLE, PRINT_BOARD_ROTATE, PRINT_BOARD_FINISHED
 from game import Game, player_finished_his_turn
 
@@ -12,7 +13,9 @@ def init_game():
     try:
         name_player_1 = ask_player_name("Player 1")
         name_player_2 = ask_player_name("Player 2")
-        game = Game(name_player_1, name_player_2)
+
+        player_who_start = randint(1, 2)
+        game = Game(name_player_1, name_player_2, player_who_start)
 
         correct_combinations = []
 
