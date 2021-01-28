@@ -49,29 +49,31 @@ def generate_line_values(x, line, correct_combinations=[]):
 
 
 def print_board_place_marble(board):
-    print("\n       A  B  C   D  E  F")
-    print("     ┌─────────+─────────┐")
+    print("\n        A  B  C   D  E  F")
+    print(BASE_SPACES + "┌─────────+─────────┐")
 
     for x, line in enumerate(board, 0):
         if x != 0 and x % HALF_BOARD_SIZE == 0:
-            print("     |─────────+─────────|")
+            print(BASE_SPACES + "|─────────+─────────|")
+        
+        print(" " * (BASE_NUMBER_OF_SPACES - 2) + str(x + 1) + " " + generate_line_values(line))
 
-        print("  " + str(x + 1) + generate_line_values(x, line))
+    print(BASE_SPACES + "└─────────+─────────┘\n")
 
     print("     └─────────+─────────┘\n\n")
 
 
 def print_board_rotate(board):
     print("\n      2 ↻             3 ↺")
-    print(" 1 ↺ ┌─────────+─────────┐  4 ↻")
+    print("  1 ↺ ┌─────────+─────────┐  4 ↻")
 
     for x, line in enumerate(board, 0):
         if x != 0 and x % HALF_BOARD_SIZE == 0:
-            print("     |─────────+─────────|")
+            print(BASE_SPACES + "|─────────+─────────|")
 
-        print("   " + generate_line_values(x, line))
+        print(BASE_SPACES + generate_line_values(line))
 
-    print(" 8 ↻ └─────────+─────────┘ 5 ↺")
+    print("  8 ↻ └─────────+─────────┘ 5 ↺")
     print("      7 ↺             6 ↻ \n")
 
 
@@ -108,25 +110,25 @@ def print_board(board, mode, correct_combinations):
 
 def print_player(player, current_player_id):
     if player.id == current_player_id:
-        print("    | " + get_player_color(player.id, PLAYER_CHARACTER) +
-              " " + player.name + " |", end="")
+        print(BASE_SPACES + "| " + get_marble_character(player.id) + " " + player.name + " |", end="")
     else:
-        print("     " + get_player_color(player.id, PLAYER_CHARACTER) + "  " + player.name, end="")
+        print(BASE_SPACES + get_marble_character(player.id) + " " + player.name, end="")
 
 
 def print_players(players, current_player_id):
-
     # Constant used to display box around player 1's nickname or player 2.
-    BOX_SPACES = " " * (8 + players[0].name_length) * (current_player_id - 1)
+    BOX_SPACES = BASE_SPACES + " " * (players[0].name_length + 2 * MINIMAL_SPACES_PLAYER) * (current_player_id - 1)
+
     # Constant to calculate length of current player name
-    BORDER_LENGTH = "─" * players[current_player_id - 1].name_length
+    # + 4 = 1 for the marble, 1 for marble left space and 2 around player name
+    BORDER_LENGTH = "─" * (players[current_player_id - 1].name_length + MINIMAL_SPACES_PLAYER)
     
     # If current player is 1, draw around his nickname a box.
     # Instead draw this box on the second player.
-    print(BOX_SPACES + "    ┌──" + BORDER_LENGTH + "──┐")
+    print(BOX_SPACES + "┌" + BORDER_LENGTH + "┐")
     print_player(players[0], current_player_id)
     print_player(players[1], current_player_id)
-    print("\n" + BOX_SPACES + "    └──" + BORDER_LENGTH + "──┘")
+    print("\n" + BOX_SPACES + "└" + BORDER_LENGTH + "┘")
 
 def print_game_result(players, correct_combinations):
     correct_combinations_length = len(correct_combinations)
