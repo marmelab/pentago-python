@@ -1,17 +1,20 @@
 import sys
-from constant.ui import PRINT_BOARD_PLACE_MARBLE, PRINT_BOARD_ROTATE
+from constant.ui import PRINT_BOARD_PLACE_MARBLE, PRINT_BOARD_ROTATE, PRINT_BOARD_FINISHED
 from game import Game, player_finished_his_turn
 
 from board import add_marble_to_board, is_board_full, get_position_if_valid, rotate_quarter_of_board
 
 from render import print_game
 
+from win import get_all_marbles_combinations_correctly_aligned
 
 def init_game():
     try:
         game = Game()
 
-        while is_board_full(game.board) == False:
+        correct_combinations = []
+
+        while is_board_full(game.board) == False and len(correct_combinations) == 0:
             print_game(game, PRINT_BOARD_PLACE_MARBLE)
             game.board = ask_player_to_place_marble(
                 game.board, game.current_player_id
@@ -23,7 +26,11 @@ def init_game():
                 game.current_player_id
             )
 
-        print("You finished the game. GJ !")
+            correct_combinations = get_all_marbles_combinations_correctly_aligned(game.board)
+
+
+        print_game(game, PRINT_BOARD_FINISHED, True, correct_combinations)
+
     except KeyboardInterrupt:
         sys.exit(0)
     finally:

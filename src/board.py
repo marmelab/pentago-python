@@ -1,7 +1,7 @@
 from copy import deepcopy
-from constant.board import BOARD_SIZE
 import numpy as np
 
+from constant.board import BOARD_SIZE, WIN_CONDITION, WIN_AREA_CHECK
 
 def construct_board():
     return np.array([[0] * BOARD_SIZE for _ in range(BOARD_SIZE)], int)
