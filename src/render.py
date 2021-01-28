@@ -117,16 +117,16 @@ def print_player(player, current_player_id):
 def print_players(players, current_player_id):
 
     # Constant used to display box around player 1's nickname or player 2.
-
-    BOX_SPACES = " " * 16 * (current_player_id - 1)
-
+    BOX_SPACES = " " * (8 + players[0].name_length) * (current_player_id - 1)
+    # Constant to calculate length of current player name
+    BORDER_LENGTH = "─" * players[current_player_id - 1].name_length
+    
     # If current player is 1, draw around his nickname a box.
     # Instead draw this box on the second player.
-
-    print(BOX_SPACES + "    ┌────────────┐")
+    print(BOX_SPACES + "    ┌──" + BORDER_LENGTH + "──┐")
     print_player(players[0], current_player_id)
     print_player(players[1], current_player_id)
-    print("\n" + BOX_SPACES + "    └────────────┘")
+    print("\n" + BOX_SPACES + "    └──" + BORDER_LENGTH + "──┘")
 
 def print_game_result(players, correct_combinations):
     correct_combinations_length = len(correct_combinations)
