@@ -42,7 +42,7 @@ def init_game():
         print("\nIt was fun, see you soon !")
 
 def ask_player_name(default_name):
-    name = input(" " + default_name +", enter your name (" +default_name+ ") :")
+    name = input(" " + default_name +", enter your name: (" +default_name+ ") ")
     if len(name) == 0:
         return default_name
 
