@@ -45,7 +45,7 @@ def generate_line_values(x, line, correct_combinations=[]):
 
         line_values = line_values + " "
 
-    return "  |" + line_values + "|"
+    return "|" + line_values + "|"
 
 
 def print_board_place_marble(board):
@@ -56,12 +56,9 @@ def print_board_place_marble(board):
         if x != 0 and x % HALF_BOARD_SIZE == 0:
             print(BASE_SPACES + "|─────────+─────────|")
         
-        print(" " * (BASE_NUMBER_OF_SPACES - 2) + str(x + 1) + " " + generate_line_values(line))
+        print(" " * (BASE_NUMBER_OF_SPACES - 2) + str(x + 1) + " " + generate_line_values(x, line))
 
-    print(BASE_SPACES + "└─────────+─────────┘\n")
-
-    print("     └─────────+─────────┘\n\n")
-
+    print(BASE_SPACES + "└─────────+─────────┘\n\n")
 
 def print_board_rotate(board):
     print("\n      2 ↻             3 ↺")
@@ -71,23 +68,23 @@ def print_board_rotate(board):
         if x != 0 and x % HALF_BOARD_SIZE == 0:
             print(BASE_SPACES + "|─────────+─────────|")
 
-        print(BASE_SPACES + generate_line_values(line))
+        print(BASE_SPACES + generate_line_values(x, line))
 
     print("  8 ↻ └─────────+─────────┘ 5 ↺")
     print("      7 ↺             6 ↻ \n")
 
 
 def print_board_finished(board, correct_combinations):
-    print("\n     The game is finished")
-    print("     ┌─────────+─────────┐")
+    print("\n" + BASE_SPACES + "The game is finished")
+    print(BASE_SPACES + "┌─────────+─────────┐")
 
     for x, line in enumerate(board, 0):
         if x != 0 and x % HALF_BOARD_SIZE == 0:
-            print("     |─────────+─────────|")
+            print(BASE_SPACES + "|─────────+─────────|")
 
-        print("   " + generate_line_values(x, line, correct_combinations))
+        print(BASE_SPACES + generate_line_values(x, line, correct_combinations))
 
-    print("     └─────────+─────────┘")
+    print(BASE_SPACES + "└─────────+─────────┘")
     print("\n")
 
 
@@ -110,9 +107,9 @@ def print_board(board, mode, correct_combinations):
 
 def print_player(player, current_player_id):
     if player.id == current_player_id:
-        print(BASE_SPACES + "| " + get_marble_character(player.id) + " " + player.name + " |", end="")
+        print(BASE_SPACES + "| " + get_player_color(player.id, PLAYER_CHARACTER) + " " + player.name + " |", end="")
     else:
-        print(BASE_SPACES + get_marble_character(player.id) + " " + player.name, end="")
+        print(BASE_SPACES + get_player_color(player.id, PLAYER_CHARACTER) + " " + player.name, end="")
 
 
 def print_players(players, current_player_id):
@@ -136,14 +133,14 @@ def print_players(players, current_player_id):
 def print_game_result(players, correct_combinations):
     correct_combinations_length = len(correct_combinations)
     if correct_combinations_length == 0:
-        print("Nobody of you be able to align 5 marbles. \n It's a draw !")
+        print(BASE_SPACES + "Nobody of you be able to align 5 marbles. \n It's a draw !")
     elif correct_combinations_length == 1:
         player = players[correct_combinations[0]['player_id'] - 1]
 
-        winner_string = "GJ " + player.name + ", You win !"
+        winner_string = BASE_SPACES + "GJ " + player.name + ", You win !"
         print(get_player_color(player.id, winner_string))
     else:
-        print('Not implemented yet !')
+        print(BASE_SPACES + 'Not implemented yet !')
 
 """
 game = structure containing board & players
