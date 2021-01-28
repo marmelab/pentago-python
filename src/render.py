@@ -1,7 +1,7 @@
 import os
 from constant.board import HALF_BOARD_SIZE
 from constant.ui import *
-from win import if_position_is_in_correct_combinations
+from win import if_position_is_in_correct_combinations, get_winners_player_id_from_correct_combinations
 
 def get_character(position, value, correct_combinations):
     # Get a character if it's an empty cell, a player cell or a player cell in correct alignment
@@ -131,16 +131,19 @@ def print_players(players, current_player_id):
     print("\n" + BOX_SPACES + "└" + BORDER_LENGTH + "┘")
 
 def print_game_result(players, correct_combinations):
-    correct_combinations_length = len(correct_combinations)
-    if correct_combinations_length == 0:
-        print(BASE_SPACES + "Nobody of you be able to align 5 marbles. \n It's a draw !")
-    elif correct_combinations_length == 1:
-        player = players[correct_combinations[0]['player_id'] - 1]
+    # From correct_combinations, get array containing player 1, player 2 or both.
+    winners = get_winners_player_id_from_correct_combinations(correct_combinations)
+    number_of_winners = len(winners)
 
-        winner_string = BASE_SPACES + "GJ " + player.name + ", You win !"
-        print(get_player_color(player.id, winner_string))
+    if number_of_winners == 0:
+        print(BASE_SPACES + "Nobody of you be able to align 5 marbles. \n It's a draw !")
+    elif number_of_winners == 1:
+        player = players[winners[0] - 1]
+
+        winner_string = "🎉 GJ " + player.name + ", You win ! 🎉"
+        print(BASE_SPACES + get_player_color(player.id, winner_string))
     else:
-        print(BASE_SPACES + 'Not implemented yet !')
+        print(BASE_SPACES + "🎉 You both won ! 🎉")
 
 """
 game = structure containing board & players
