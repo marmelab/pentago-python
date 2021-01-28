@@ -121,21 +121,23 @@ class BoardTest (unittest.TestCase):
 
     
     good_rotation_values = lambda: (
-        ( "1", generate_board_and_add_position((0, 0)), generate_board_and_add_position((2, 0)) ),
-        ( "2", generate_board_and_add_position((0, 0)), generate_board_and_add_position((0, 2)) ),
-        ( "3", generate_board_and_add_position((0, 3)), generate_board_and_add_position((2, 3)) ),
-        ( "4", generate_board_and_add_position((0, 3)), generate_board_and_add_position((0, 5)) ),
-        ( "5", generate_board_and_add_position((3, 3)), generate_board_and_add_position((5, 3)) ),
-        ( "6", generate_board_and_add_position((3, 3)), generate_board_and_add_position((3, 5)) ),
-        ( "7", generate_board_and_add_position((3, 0)), generate_board_and_add_position((5, 0)) ),
-        ( "8", generate_board_and_add_position((3, 0)), generate_board_and_add_position((3, 2)) ),
+        ( "", generate_board_and_add_position((0, 0)), True, generate_board_and_add_position((0, 0)) ),
+        ( "1", generate_board_and_add_position((0, 0)), False, generate_board_and_add_position((2, 0)) ),
+        ( "1", generate_board_and_add_position((0, 0)), True, generate_board_and_add_position((2, 0)) ),
+        ( "2", generate_board_and_add_position((0, 0)), False, generate_board_and_add_position((0, 2)) ),
+        ( "3", generate_board_and_add_position((0, 3)), False, generate_board_and_add_position((2, 3)) ),
+        ( "4", generate_board_and_add_position((0, 3)), False, generate_board_and_add_position((0, 5)) ),
+        ( "5", generate_board_and_add_position((3, 3)), False, generate_board_and_add_position((5, 3)) ),
+        ( "6", generate_board_and_add_position((3, 3)), False, generate_board_and_add_position((3, 5)) ),
+        ( "7", generate_board_and_add_position((3, 0)), False, generate_board_and_add_position((5, 0)) ),
+        ( "8", generate_board_and_add_position((3, 0)), False, generate_board_and_add_position((3, 2)) ),
     )
 
     @data_provider(good_rotation_values)
-    def test_rotate_quarter_of_board_should_return_board(self, player_input_value, board, expected_board):
+    def test_rotate_quarter_of_board_should_return_board(self, player_input_value, board, one_quarter_is_symetric, expected_board):
         print_board_if_verbosity_is_set(board)
         print_board_if_verbosity_is_set(expected_board)
-        result = rotate_quarter_of_board(board, player_input_value)
+        result = rotate_quarter_of_board(board, player_input_value, one_quarter_is_symetric)
 
         np.testing.assert_array_equal(result, expected_board)
 
@@ -152,7 +154,7 @@ class BoardTest (unittest.TestCase):
         print_board_if_verbosity_is_set(board)
         
         with self.assertRaises(ValueError) as context:
-            board = rotate_quarter_of_board(board, player_input_value)
+            board = rotate_quarter_of_board(board, player_input_value, False)
 
 
         self.assertEqual("Rotation given is not correct", str(context.exception))

@@ -75,12 +75,9 @@ def ask_player_to_rotate_quarter(board, one_quarter_is_symetric):
             string += "(enter to skip) "
 
         player_input_value = input(string)
-
-        if one_quarter_is_symetric == True and len(player_input_value) == 0:
-            return board
         
         try:
-            board = rotate_quarter_of_board(board, player_input_value)
+            board = rotate_quarter_of_board(board, player_input_value, one_quarter_is_symetric)
             player_input_value_is_wrong = False
         except ValueError:
             print("Please enter a valid rotation (1..8): ")

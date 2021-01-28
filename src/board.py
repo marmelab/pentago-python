@@ -101,7 +101,11 @@ Warning: in slice(X, Y), X is included but Y is excluded.
 def get_quarter_boundaries_from_rotation_key(rotation_key):
     return QUARTER_BOUNDARIES[rotation_key // 2]
 
-def rotate_quarter_of_board(board, player_input_value):
+def rotate_quarter_of_board(board, player_input_value, one_quarter_is_symetric):
+    # If one quarter is symetric, we allow player to skip this step.
+    if one_quarter_is_symetric == True and len(player_input_value) == 0:
+        return board
+
     try:
         # Trying to convert the given string to an integer.
         rotation_key = int(player_input_value)
