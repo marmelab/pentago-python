@@ -1,7 +1,7 @@
 from copy import deepcopy
 import numpy as np
 
-from constant.board import BOARD_SIZE, WIN_CONDITION, WIN_AREA_CHECK
+from constant.board import BOARD_SIZE, WIN_CONDITION, WIN_AREA_CHECK, QUARTER_BOUNDARIES
 
 def construct_board():
     return np.array([[0] * BOARD_SIZE for _ in range(BOARD_SIZE)], int)
@@ -98,17 +98,14 @@ Warning: in slice(X, Y), X is included but Y is excluded.
 
 """
 
-
 def get_quarter_boundaries_from_rotation_key(rotation_key):
-    return {
-        0: (slice(0, 3), slice(0, 3)),
-        1: (slice(0, 3), slice(3, 6)),
-        2: (slice(3, 6), slice(3, 6)),
-        3: (slice(3, 6), slice(0, 3))
-    }[rotation_key // 2]
+    return QUARTER_BOUNDARIES[rotation_key // 2]
 
+def rotate_quarter_of_board(board, player_input_value, one_quarter_is_symetric):
+    # If one quarter is symetric, we allow player to skip this step.
+    if one_quarter_is_symetric == True and len(player_input_value) == 0:
+        return board
 
-def rotate_quarter_of_board(board, player_input_value):
     try:
         # Trying to convert the given string to an integer.
         rotation_key = int(player_input_value)
@@ -181,3 +178,35 @@ def rotate_quarter_of_board(board, player_input_value):
     board[slices] = rotated_quarter
 
     return board
+
+
+def is_quarter_symetric(quarter):
+    """  
+        A quarter have a rotational symetry if "A" cells "A" and "B" cells have the same values.
+        B and A can equal 0, 1 or 2.
+        ┌─────────+
+        | A  B  A |
+        | B  x  B |
+        | A  B  A |
+        |─────────+
+
+        To check this, we need to compare the quarter with himself 180deg rotated.
+    """
+
+    # 2 apply rot90 twice to got 180deg rotation.
+    rotated_quarter = np.rot90(quarter, 2)
+
+    # NumPy array comparaison to deeply compare sizes and values.
+    return np.array_equal(quarter, rotated_quarter)
+
+def is_at_least_one_quarter_symetric(board):
+    # Get all quarter slices 
+    for slices in QUARTER_BOUNDARIES.values():
+        # Extract this quarter
+        quarter = board[slices]
+        # If symetric, return True
+        is_symetric = is_quarter_symetric(quarter)
+
+        if is_symetric:
+            return True
+    return False

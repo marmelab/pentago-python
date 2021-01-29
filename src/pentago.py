@@ -3,7 +3,7 @@ from random import randint
 from constant.ui import PRINT_BOARD_PLACE_MARBLE, PRINT_BOARD_ROTATE, PRINT_BOARD_FINISHED
 from game import Game, player_finished_his_turn
 
-from board import add_marble_to_board, is_board_full, get_position_if_valid, rotate_quarter_of_board
+from board import add_marble_to_board, is_board_full, get_position_if_valid, rotate_quarter_of_board, is_at_least_one_quarter_symetric
 
 from render import print_game
 
@@ -24,8 +24,11 @@ def init_game():
             game.board = ask_player_to_place_marble(
                 game.board, game.current_player_id
             )
+
+            game.one_quarter_is_symetric = is_at_least_one_quarter_symetric(game.board)
+    
             print_game(game, PRINT_BOARD_ROTATE)
-            game.board = ask_player_to_rotate_quarter(game.board)
+            game.board = ask_player_to_rotate_quarter(game.board, game.one_quarter_is_symetric)
 
             game.current_player_id = player_finished_his_turn(
                 game.current_player_id
@@ -63,14 +66,18 @@ def ask_player_to_place_marble(board, current_player_id):
 
     return board
 
-def ask_player_to_rotate_quarter(board):
+def ask_player_to_rotate_quarter(board, one_quarter_is_symetric):
     player_input_value_is_wrong = True;
     
     while player_input_value_is_wrong:
-        player_input_value = input(" Now rotate one quarter: ")
+        string = " Now rotate one quarter: "
+        if one_quarter_is_symetric == True:
+            string += "(enter to skip) "
 
+        player_input_value = input(string)
+        
         try:
-            board = rotate_quarter_of_board(board, player_input_value)
+            board = rotate_quarter_of_board(board, player_input_value, one_quarter_is_symetric)
             player_input_value_is_wrong = False
         except ValueError:
             print("Please enter a valid rotation (1..8): ")

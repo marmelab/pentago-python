@@ -3,9 +3,9 @@ from unittest_data_provider import data_provider
 import sys
 import numpy as np
 
-from board import construct_board, is_board_full, get_position_if_valid, add_marble_to_board, get_quarter_boundaries_from_rotation_key, rotate_quarter_of_board
+from board import *
 
-from test_utils.generate_board import generate_board_and_add_position, generate_empty_board, generate_full_board
+from test_utils.generate_board import generate_board_and_add_position, generate_empty_board, generate_full_board, generate_board_and_add_positions
 from test_utils.print_board import print_board_if_verbosity_is_set
 
 class BoardTest (unittest.TestCase):
@@ -121,21 +121,23 @@ class BoardTest (unittest.TestCase):
 
     
     good_rotation_values = lambda: (
-        ( "1", generate_board_and_add_position((0, 0)), generate_board_and_add_position((2, 0)) ),
-        ( "2", generate_board_and_add_position((0, 0)), generate_board_and_add_position((0, 2)) ),
-        ( "3", generate_board_and_add_position((0, 3)), generate_board_and_add_position((2, 3)) ),
-        ( "4", generate_board_and_add_position((0, 3)), generate_board_and_add_position((0, 5)) ),
-        ( "5", generate_board_and_add_position((3, 3)), generate_board_and_add_position((5, 3)) ),
-        ( "6", generate_board_and_add_position((3, 3)), generate_board_and_add_position((3, 5)) ),
-        ( "7", generate_board_and_add_position((3, 0)), generate_board_and_add_position((5, 0)) ),
-        ( "8", generate_board_and_add_position((3, 0)), generate_board_and_add_position((3, 2)) ),
+        ( "", generate_board_and_add_position((0, 0)), True, generate_board_and_add_position((0, 0)) ),
+        ( "1", generate_board_and_add_position((0, 0)), False, generate_board_and_add_position((2, 0)) ),
+        ( "1", generate_board_and_add_position((0, 0)), True, generate_board_and_add_position((2, 0)) ),
+        ( "2", generate_board_and_add_position((0, 0)), False, generate_board_and_add_position((0, 2)) ),
+        ( "3", generate_board_and_add_position((0, 3)), False, generate_board_and_add_position((2, 3)) ),
+        ( "4", generate_board_and_add_position((0, 3)), False, generate_board_and_add_position((0, 5)) ),
+        ( "5", generate_board_and_add_position((3, 3)), False, generate_board_and_add_position((5, 3)) ),
+        ( "6", generate_board_and_add_position((3, 3)), False, generate_board_and_add_position((3, 5)) ),
+        ( "7", generate_board_and_add_position((3, 0)), False, generate_board_and_add_position((5, 0)) ),
+        ( "8", generate_board_and_add_position((3, 0)), False, generate_board_and_add_position((3, 2)) ),
     )
 
     @data_provider(good_rotation_values)
-    def test_rotate_quarter_of_board_should_return_board(self, player_input_value, board, expected_board):
+    def test_rotate_quarter_of_board_should_return_board(self, player_input_value, board, one_quarter_is_symetric, expected_board):
         print_board_if_verbosity_is_set(board)
         print_board_if_verbosity_is_set(expected_board)
-        result = rotate_quarter_of_board(board, player_input_value)
+        result = rotate_quarter_of_board(board, player_input_value, one_quarter_is_symetric)
 
         np.testing.assert_array_equal(result, expected_board)
 
@@ -152,7 +154,34 @@ class BoardTest (unittest.TestCase):
         print_board_if_verbosity_is_set(board)
         
         with self.assertRaises(ValueError) as context:
-            board = rotate_quarter_of_board(board, player_input_value)
+            board = rotate_quarter_of_board(board, player_input_value, False)
 
 
         self.assertEqual("Rotation given is not correct", str(context.exception))
+
+    is_quarter_symetric_values = lambda: (
+        ([[0, 0, 0], [0, 0, 0], [0, 0, 0]], True),
+        ([[0, 1, 0], [0, 0, 0], [0, 0, 0]], False),
+        ([[1, 0, 1], [0, 0, 0], [1, 0, 1]], True),
+        ([[1, 0, 1], [0, 0, 0], [1, 0, 1]], True),
+        ([[1, 2, 1], [2, 0, 2], [1, 2, 1]], True),
+    )
+    @data_provider(is_quarter_symetric_values)
+    def test_is_quarter_symetric(self, quarter, expected_result):
+        print_board_if_verbosity_is_set(quarter)
+
+        result = is_quarter_symetric(quarter)
+
+        self.assertEqual(result, expected_result)
+
+    is_at_least_one_quarter_symetric_values = lambda: (
+        (generate_board_and_add_positions(((0, 0), (3, 0), (3, 3), (0, 3))), False),
+        (generate_empty_board(), True),
+    )
+    @data_provider(is_at_least_one_quarter_symetric_values)
+    def test_is_at_least_one_quarter_symetric(self, board, expected_result):
+        print_board_if_verbosity_is_set(board)
+
+        result = is_at_least_one_quarter_symetric(board)
+
+        self.assertEqual(result, expected_result)
