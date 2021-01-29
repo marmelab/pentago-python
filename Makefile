@@ -10,7 +10,7 @@ stop: ## Stop the server
 	docker-compose down
 
 test: ## Test the application
-	docker-compose run app coverage run --omit=*/tests/* -m unittest discover
+	docker-compose run app coverage run -m unittest discover
 
 test-verbose: ## Test the application in verbose mode
 	docker-compose run app coverage run -m unittest discover -v
