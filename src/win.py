@@ -224,5 +224,3 @@ def get_winners_player_id_from_correct_combinations(correct_combinations):
             winners.append(player_id)
 
     return winners
-
-    
