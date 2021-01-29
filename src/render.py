@@ -1,6 +1,6 @@
 import os
-from constant.board import HALF_BOARD_SIZE
-from constant.ui import *
+from constants.board import HALF_BOARD_SIZE
+from constants.ui import *
 from win import if_position_is_in_correct_combinations, get_winners_player_id_from_correct_combinations
 
 def get_character(position, value, correct_combinations):

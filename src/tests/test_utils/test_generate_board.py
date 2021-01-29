@@ -3,7 +3,7 @@ import unittest
 
 from unittest_data_provider import data_provider
 
-from test_utils.generate_board import generate_empty_board, generate_full_board, generate_board_and_add_position, generate_board_and_add_positions
+from tests.test_utils.generate_board import generate_empty_board, generate_full_board, generate_board_and_add_position, generate_board_and_add_positions
 
 class GenerateBoardTest (unittest.TestCase):
     def test_generate_empty_board(self):

@@ -1,4 +1,4 @@
-from constant.board import BOARD_SIZE, WIN_CONDITION, WIN_AREA_CHECK
+from constants.board import BOARD_SIZE, WIN_CONDITION, WIN_AREA_CHECK
 
 def is_position_outside_board(position):
     return position[0] < 0 or position[0] >= BOARD_SIZE or position[1] < 0 or position[1] >= BOARD_SIZE
@@ -77,15 +77,15 @@ def get_all_lines_aligned(board):
 
     """
         To check if we have a 5 marbles aligned in rows, we only have to iterate throught first two columns.
-        ┌──────────+─────────┐
-        |  x  x  ◯ | ◯  ◯  ◯ |
-        |  x  x  ◯ | ◯  ◯  ◯ |
-        |  x  x  ◯ | ◯  ◯  ◯ |
-        |──────────+─────────|
-        |  x  x  ◯ | ◯  ◯  ◯ |
-        |  x  x  ◯ | ◯  ◯  ◯ |
-        |  x  x  ◯ | ◯  ◯  ◯ |
-        └──────────+─────────┘
+        ┌─────────+─────────┐
+        | x  x  ◯ | ◯  ◯  ◯ |
+        | x  x  ◯ | ◯  ◯  ◯ |
+        | x  x  ◯ | ◯  ◯  ◯ |
+        |─────────+─────────|
+        | x  x  ◯ | ◯  ◯  ◯ |
+        | x  x  ◯ | ◯  ◯  ◯ |
+        | x  x  ◯ | ◯  ◯  ◯ |
+        └─────────+─────────┘
     """
 
     range_row = range(BOARD_SIZE)
@@ -103,15 +103,15 @@ def get_all_columns_aligned(board):
     """
         To check if we have a column with 5 marbles aligned, we only have to iterate throught first two lines:
 
-        ┌──────────+─────────┐
-        |  x  x  x | x  x  x |
-        |  x  x  x | x  x  x |
-        |  ◯  ◯  ◯ | ◯  ◯  ◯ |
-        |──────────+─────────|
-        |  ◯  ◯  ◯ | ◯  ◯  ◯ |
-        |  ◯  ◯  ◯ | ◯  ◯  ◯ |
-        |  ◯  ◯  ◯ | ◯  ◯  ◯ |
-        └──────────+─────────┘
+        ┌─────────+─────────┐
+        | x  x  x | x  x  x |
+        | x  x  x | x  x  x |
+        | ◯  ◯  ◯ | ◯  ◯  ◯ |
+        |─────────+─────────|
+        | ◯  ◯  ◯ | ◯  ◯  ◯ |
+        | ◯  ◯  ◯ | ◯  ◯  ◯ |
+        | ◯  ◯  ◯ | ◯  ◯  ◯ |
+        └─────────+─────────┘
 
     """
 
@@ -130,15 +130,15 @@ def get_all_columns_aligned(board):
 def get_all_diagonales_aligned(board):
     """
         To check if we have a 5 marbles aligned in diagonales (from top-left to right-bottom), we only have to check following start positions.
-        ┌──────────+─────────┐
-        |  x  x  ◯ | ◯  ◯  ◯ |
-        |  x  x  ◯ | ◯  ◯  ◯ |
-        |  ◯  ◯  ◯ | ◯  ◯  ◯ |
-        |──────────+─────────|
-        |  ◯  ◯  ◯ | ◯  ◯  ◯ |
-        |  ◯  ◯  ◯ | ◯  ◯  ◯ |
-        |  ◯  ◯  ◯ | ◯  ◯  ◯ |
-        └──────────+─────────┘
+        ┌─────────+─────────┐
+        | x  x  ◯ | ◯  ◯  ◯ |
+        | x  x  ◯ | ◯  ◯  ◯ |
+        | ◯  ◯  ◯ | ◯  ◯  ◯ |
+        |─────────+─────────|
+        | ◯  ◯  ◯ | ◯  ◯  ◯ |
+        | ◯  ◯  ◯ | ◯  ◯  ◯ |
+        | ◯  ◯  ◯ | ◯  ◯  ◯ |
+        └─────────+─────────┘
     """
 
     range_row = range(WIN_AREA_CHECK)
@@ -156,15 +156,15 @@ def get_all_diagonales_aligned(board):
 def get_all_reversed_diagonales_aligned(board):
     """
         Finally, to check if we have a 5 marbles aligned in reversed diagonales (from top-right to left-bottom), we only have to check following start positions.
-        ┌──────────+─────────┐
-        |  ◯  ◯  ◯ | ◯  x  x |
-        |  ◯  ◯  ◯ | ◯  x  x |
-        |  ◯  ◯  ◯ | ◯  ◯  ◯ |
-        |──────────+─────────|
-        |  ◯  ◯  ◯ | ◯  ◯  ◯ |
-        |  ◯  ◯  ◯ | ◯  ◯  ◯ |
-        |  ◯  ◯  ◯ | ◯  ◯  ◯ |
-        └──────────+─────────┘
+        ┌─────────+─────────┐
+        | ◯  ◯  ◯ | ◯  x  x |
+        | ◯  ◯  ◯ | ◯  x  x |
+        | ◯  ◯  ◯ | ◯  ◯  ◯ |
+        |─────────+─────────|
+        | ◯  ◯  ◯ | ◯  ◯  ◯ |
+        | ◯  ◯  ◯ | ◯  ◯  ◯ |
+        | ◯  ◯  ◯ | ◯  ◯  ◯ |
+        └─────────+─────────┘
     """
 
     range_row = range(WIN_AREA_CHECK)
@@ -183,15 +183,15 @@ def get_all_marbles_combinations_correctly_aligned(board):
         The board is a 6*6 board.
 
         To check if we have 5 marbles aligned, we only need to start checking from positions described below:
-        ┌──────────+─────────┐
-        |  x  x  x | x  x  x |
-        |  x  x  x | x  x  x |
-        |  x  x  ◯ | ◯  ◯  ◯ |
-        |──────────+─────────|
-        |  x  x  ◯ | ◯  ◯  ◯ |
-        |  x  x  ◯ | ◯  ◯  ◯ |
-        |  x  x  ◯ | ◯  ◯  ◯ |
-        └──────────+─────────┘
+        ┌─────────+─────────┐
+        | x  x  x | x  x  x |
+        | x  x  x | x  x  x |
+        | x  x  ◯ | ◯  ◯  ◯ |
+        |─────────+─────────|
+        | x  x  ◯ | ◯  ◯  ◯ |
+        | x  x  ◯ | ◯  ◯  ◯ |
+        | x  x  ◯ | ◯  ◯  ◯ |
+        └─────────+─────────┘
 
         And browse the board to the right, to the bottom,
         to the right bottom (diagonale) and to the left bottom (reversed-diagonale)
