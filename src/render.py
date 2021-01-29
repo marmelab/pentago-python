@@ -136,7 +136,8 @@ def print_game_result(players, correct_combinations):
     number_of_winners = len(winners)
 
     if number_of_winners == 0:
-        print(BASE_SPACES + "Nobody of you be able to align 5 marbles. \n It's a draw !")
+        print(BASE_SPACES + "Nobody of you was able to align 5 marbles.")
+        print(BASE_SPACES + "😐 It's a draw ! 😐")
     elif number_of_winners == 1:
         player = players[winners[0] - 1]
 
