@@ -88,3 +88,10 @@ class WinTest (unittest.TestCase):
 
         result = if_position_is_in_correct_combinations(position, correct_combinations)
         self.assertEqual(result, expected_results)
+
+
+    @data_provider(datasets.get_winners_player_id_from_correct_combinations)
+    def test_get_winners_player_id_from_correct_combinations(self, correct_combinations, expected_results):
+        winners = get_winners_player_id_from_correct_combinations(correct_combinations)
+        self.assertListEqual(winners, expected_results)
+

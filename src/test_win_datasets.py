@@ -341,3 +341,27 @@ if_position_is_in_correct_combinations = lambda: (
     ((1, 3), True),
     ((5, 1), True)
 )
+
+get_winners_player_id_from_correct_combinations = lambda: (
+    ([], []),
+    ([
+        {
+            "player_id": 2,
+        },
+        {
+            "player_id": 2,
+        }
+    ],
+        [2]
+    ),
+    ([
+        {
+            "player_id": 1,
+        },
+        {
+            "player_id": 2,
+        }
+    ],
+        [1, 2]
+    )
+)

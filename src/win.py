@@ -213,3 +213,14 @@ def if_position_is_in_correct_combinations(position, correct_combinations):
                 return True
     
     return False
+
+def get_winners_player_id_from_correct_combinations(correct_combinations):
+    winners = []
+
+    for combination in correct_combinations:
+        player_id = combination["player_id"]
+
+        if player_id not in winners:
+            winners.append(player_id)
+
+    return winners
