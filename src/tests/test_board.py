@@ -5,8 +5,8 @@ import numpy as np
 
 from board import *
 
-from test_utils.generate_board import generate_board_and_add_position, generate_empty_board, generate_full_board, generate_board_and_add_positions
-from test_utils.print_board import print_board_if_verbosity_is_set
+from tests.test_utils.generate_board import generate_board_and_add_position, generate_empty_board, generate_full_board, generate_board_and_add_positions
+from tests.test_utils.print_board import print_board_if_verbosity_is_set
 
 class BoardTest (unittest.TestCase):
     def test_if_construct_board_return_correctly_initialized_array(self):

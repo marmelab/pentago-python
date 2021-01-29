@@ -1,6 +1,6 @@
 import sys
 from random import randint
-from constant.ui import PRINT_BOARD_PLACE_MARBLE, PRINT_BOARD_ROTATE, PRINT_BOARD_FINISHED
+from constants.ui import PRINT_BOARD_PLACE_MARBLE, PRINT_BOARD_ROTATE, PRINT_BOARD_FINISHED
 from game import Game, player_finished_his_turn
 
 from board import add_marble_to_board, is_board_full, get_position_if_valid, rotate_quarter_of_board, is_at_least_one_quarter_symetric

@@ -1,4 +1,4 @@
-from constant.board import BOARD_SIZE, WIN_CONDITION, WIN_AREA_CHECK
+from constants.board import BOARD_SIZE, WIN_CONDITION, WIN_AREA_CHECK
 
 def is_position_outside_board(position):
     return position[0] < 0 or position[0] >= BOARD_SIZE or position[1] < 0 or position[1] >= BOARD_SIZE

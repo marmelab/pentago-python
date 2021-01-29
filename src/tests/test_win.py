@@ -3,8 +3,8 @@ from unittest_data_provider import data_provider
 import sys
 import numpy as np
 
-from test_utils.print_board import print_board_if_verbosity_is_set
-import test_win_datasets as datasets
+from tests.test_utils.print_board import print_board_if_verbosity_is_set
+import tests.test_win_datasets as datasets
 
 from win import *
 

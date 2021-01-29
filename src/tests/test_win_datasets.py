@@ -1,4 +1,4 @@
-from test_utils.generate_board import generate_board_and_add_positions, generate_empty_board, generate_full_board
+from tests.test_utils.generate_board import generate_board_and_add_positions, generate_empty_board, generate_full_board
 
 is_position_outside_board = lambda: (
     ((-1, 0), True),
