@@ -190,14 +190,16 @@ def is_quarter_symetric(quarter):
         | A  B  A |
         |─────────+
 
-        To check this, we need to compare the quarter with himself 180deg rotated.
+        To check this, we need to compare the quarter with himself 90deg and himself 180deg rotated.
     """
 
+    # apply rot90 once to got 90deg rotation.
+    rotated_quarter__once = np.rot90(quarter) 
     # 2 apply rot90 twice to got 180deg rotation.
-    rotated_quarter = np.rot90(quarter, 2)
+    rotated_quarter_twice = np.rot90(rotated_quarter__once)
 
     # NumPy array comparaison to deeply compare sizes and values.
-    return np.array_equal(quarter, rotated_quarter)
+    return np.array_equal(quarter, rotated_quarter__once) and np.array_equal(quarter, rotated_quarter_twice)
 
 def is_at_least_one_quarter_symetric(board):
     # Get all quarter slices 
