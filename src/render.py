@@ -116,10 +116,10 @@ def print_players(players, current_player_id):
     first_player_name_length = len(players[0].name)
     current_player_name_length = len(players[current_player_id - 1].name)
 
-    # constants used to display box around player 1's nickname or player 2.
+    # Constant used to display box around player 1's nickname or player 2.
     BOX_SPACES = BASE_SPACES + " " * (first_player_name_length + 2 * MINIMAL_SPACES_PLAYER) * (current_player_id - 1)
 
-    # constants to calculate length of current player name
+    # Constant to calculate length of current player name
     # + 4 = 1 for the marble, 1 for marble left space and 2 around player name
     BORDER_LENGTH = "─" * (current_player_name_length + MINIMAL_SPACES_PLAYER)
     
